@@ -11,7 +11,7 @@ This is a personal collection code snippets, commands and small samples that I c
 
 ## Index
 
-- Basic Linux/Bash
+- [Basic Linux/Bash](./linux-bash)
 - Docker
 - curl
 - AWS - CLI
