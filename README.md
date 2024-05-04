@@ -12,11 +12,11 @@ This is a personal collection code snippets, commands and small samples that I c
 ## Index
 
 - [Basic Linux/Bash](./linux-bash)
-- Docker
-- curl
-- AWS - CLI
-- AWS - ECS
-- AWS - Elastic Beanstalk
+- [Docker](./docker)
+- [curl](./curl)
+- [AWS - CLI](./aws-cli)
+- [AWS - ECS](./aws-ecs)
+- [AWS - Elastic Beanstalk](./aws-elasticbeanstalk)
 
 
 ## Contributing
