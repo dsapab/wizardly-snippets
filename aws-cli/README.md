@@ -1,0 +1,1 @@
+# Wizardly Snippets - AWS CLI
