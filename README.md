@@ -26,7 +26,7 @@ Contributions and feedback are welcome! Proposals and pull requests will be cons
 
 ## Code of conduct
 
-Please revise the [code of conduct](./CODE_OF_CONDUCT.md)
+Please revise the [code of conduct](./CODE_OF_CONDUCT.md).
 
 
 ## License
