@@ -1,4 +1,4 @@
-# Wizardly Snippets - AWS CLI
+# AWS CLI
 
 # Index
 - [Check Service Availability](#check-service-vailability)
