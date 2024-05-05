@@ -1,5 +1,7 @@
 # Wizardly Snippets
 
+![Vintage computer terminal](./misc/computer-terminal-2.jpeg)
+
 This is a personal collection code snippets, commands and small samples that I crafted (or copied 🏴‍☠️) and saved me in one of those [(not-so) read-only fridays](https://isitreadonlyfriday.com). Rather than having them abandoned in a shady forgotten folder, I am sharing them so they can hopefully be useful for you as well.
 
 
