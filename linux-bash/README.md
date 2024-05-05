@@ -3,6 +3,7 @@
 # Index
 - [Load Settings from a file + awk](#load-settings-from-a-file-+-awk)
 - [Get the last field with awk](#get-the-last-field-with-awk)
+- [System resources stress](system-resources-stress)
 
 
 ## Load Settings from a file + awk
@@ -37,3 +38,14 @@ zip_dest=$(awk -F "=" '/zip_dest/ {print $2}' $tmp_cfg)
 ```
 TASK_ID=$(echo $TASK_DETAILS | jq -r '.TaskARN' | awk -F '/' '{print $NF}')
 ```
+
+## System resources stress
+Stress the system memory, filling up-to 90% of the RAM. The ```0.9``` value can be tweaked to fill diferente percentajes of the RAM memory.
+```
+stress-ng --vm-bytes $(awk '/MemAvailable/{printf "%d\n", $2 * 0.9;}' < /proc/meminfo)k --vm-keep -m 1
+```
+Stress the disks:
+```
+stress-ng --hdd 4 --timeout 60m /efs/
+```
+
