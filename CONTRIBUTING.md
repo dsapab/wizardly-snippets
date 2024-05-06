@@ -44,4 +44,4 @@ Please revise the [code of conduct](CODE_OF_CONDUCT.md)
 
 ## Licensing
 
-See the [LICENSE](LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.
+See the [LICENSE](LICENSE) file for this project's licensing. I may ask you to confirm the licensing of your contribution.
