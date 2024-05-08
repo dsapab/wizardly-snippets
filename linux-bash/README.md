@@ -1,6 +1,7 @@
 # Bash & Linux
 
 # Index
+- [Bash script - validate that is not already running](bash-script---validate-that-is-not-already-running)
 - [Bash script - sanity checks](bash-script---sanity-checks)
 - [Get the last field with awk](#get-the-last-field-with-awk)
 - [grep simple text matching](grep-simple-text-matching)
