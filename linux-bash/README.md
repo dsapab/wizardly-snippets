@@ -1,8 +1,8 @@
 # Bash & Linux
 
 # Index
-- [Bash script - validate that is not already running](bash-script--validate-that-is-not-already-running)
-- [Bash script - sanity checks](bash-script---sanity-checks)
+- [Bash script - validate that is not already running](bash-script-validate-that-is-not-already-running)
+- [Bash script - sanity checks](bash-script-sanity-checks)
 - [Get the last field with awk](#get-the-last-field-with-awk)
 - [grep simple text matching](grep-simple-text-matching)
 - [Load settings from a file with awk](#load-settings-from-a-file-with-awk)
@@ -10,7 +10,7 @@
 
 ****
 
-## Bash script - validate that is not already running
+## Bash script validate that is not already running
 Many times, especially with cron-jpbs that run very often it is important to validate that there is only one instance of the script running at any given time. Some scripts performing atomic or synchronisation tasks may collision if there are two instances of the same scrip running at the same time. A very simple sample can be synchronising files from S3 buckets. You may want to have frequent sync (a cron-job running every 5 minutes), but if there is already a synchronisation job taking place, you don’t want to overlap them. 
 ```
 #!/usr/bin/env bash
@@ -44,7 +44,7 @@ echo -e "Sync files from S3...
 # //TODO
 ```
 
-## Bash script - sanity checks
+## Bash script sanity checks
 
 Sample script that performs sanity checks and verifies if given commands exist before proceeding. It also creates an alias for OS inter-compatibility (MacOS/Linux).
 
