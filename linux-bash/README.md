@@ -125,7 +125,7 @@ zip_dest=$(awk -F "=" '/zip_dest/ {print $2}' $tmp_cfg)
 
 
 ## System resources stress
-Stress the system memory, filling up-to 90% of the RAM. The ```0.9``` value can be tweaked to fill diferente percentajes of the RAM memory.
+Stress the system memory, filling up-to 90% of the RAM. The ```0.9``` value can be tweaked to fill diferent percentajes of the RAM memory.
 ```
 stress-ng --vm-bytes $(awk '/MemAvailable/{printf "%d\n", $2 * 0.9;}' < /proc/meminfo)k --vm-keep -m 1
 ```
