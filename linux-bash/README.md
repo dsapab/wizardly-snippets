@@ -1,6 +1,7 @@
 # Bash & Linux
 
 # Index
+- [rsync](#rsync)
 - [Bash script - validate that is not already running](#bash-script---validate-that-is-not-already-running)
 - [Bash script - sanity checks](#bash-script---sanity-checks)
 - [Get the last field with awk](#get-the-last-field-with-awk)
@@ -9,6 +10,49 @@
 - [System resources stress](#system-resources-stress)
 
 ****
+## rsync
+Check the command reference [here](https://linux.die.net/man/1/rsync).
+```
+rsync -avhzP --delete /src/ /dst/
+```
+Individual flags:
+```
+• -a (archive mode): This is actually a combination of several flags:
+  • Recursive copying (-r)
+  • Preserves symbolic links (-l)
+  • Preserves permissions (-p)
+  • Preserves timestamps (-t)
+  • Preserves group (-g)
+  • Preserves owner (-o)
+  • Preserves device files and special files (-D)
+
+• -v (verbose): Shows the names of files being transferred and provides additional information about what rsync is doing
+
+• -h (human-readable): Displays file sizes in human-readable format (KB, MB, GB) instead of raw bytes
+
+• -z (compress): Compresses data during transfer (useful for network transfers)
+
+• -P: This is actually a combination of two flags:
+  • --partial: Keeps partially transferred files (useful if transfer is interrupted)
+  • --progress: Shows progress during transfer with a progress bar for each file
+  
+• --delete: Removes files from the destination directory that no longer exist in the source directory
+```
+Some samples for remote encrypted remote sync, over SSH:
+
+Push to remote server:
+```
+rsync -avhzP --delete /src/ user@remote-host:/dst/
+```
+
+Pull from remote server:
+```
+rsync -avhzP --delete user@remote-host:/src/ /dst/
+```
+Sample with special options:
+```
+rsync -avhzP --delete -e "ssh -i ~/.ssh/my-key" /src/ user@remote-host:/dst/
+```
 
 ## Bash script - Validate that is not already running
 Many times, especially with cron-jpbs that run very often it is important to validate that there is only one instance of the script running at any given time. Some scripts performing atomic or synchronisation tasks may collision if there are two instances of the same scrip running at the same time. A very simple sample can be synchronising files from S3 buckets. You may want to have frequent sync (a cron-job running every 5 minutes), but if there is already a synchronisation job taking place, you don’t want to overlap them. 
