@@ -55,7 +55,7 @@ rsync -avhzP --delete -e "ssh -i ~/.ssh/my-key" /src/ user@remote-host:/dst/
 ```
 
 ## Bash script - Validate that is not already running
-Many times, especially with cron-jpbs that run very often it is important to validate that there is only one instance of the script running at any given time. Some scripts performing atomic or synchronisation tasks may collision if there are two instances of the same scrip running at the same time. A very simple sample can be synchronising files from S3 buckets. You may want to have frequent sync (a cron-job running every 5 minutes), but if there is already a synchronisation job taking place, you don’t want to overlap them. 
+Many times, especially with cron-jpbs that run very often it is important to validate that there is only one instance of the script running at any given time. Some scripts performing atomic or synchronisation tasks may collision if there are two instances of the same script running at the same time. A very basic sample can be synchronising files from S3 buckets. You may want to have frequent sync (a cron-job running every 5 minutes), but if there is already a synchronisation job taking place, you don’t want to overlap them.
 ```
 #!/usr/bin/env bash
 script_name=$(basename -- "$0")
