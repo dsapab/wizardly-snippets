@@ -8,6 +8,7 @@
 - [grep simple text matching](#grep-simple-text-matching)
 - [Load settings from a file with awk](#load-settings-from-a-file-with-awk)
 - [System resources stress](#system-resources-stress)
+- [Makefiles](#makefiles)
 
 ****
 ## rsync
@@ -178,3 +179,4 @@ Stress the disks:
 stress-ng --hdd 4 --timeout 60m /efs/
 ```
 
+## Makefiles
