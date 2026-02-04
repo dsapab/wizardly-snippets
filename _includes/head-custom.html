@@ -1,0 +1,7 @@
+<script>
+function sendHeight() {
+  window.parent.postMessage({height: document.body.scrollHeight}, '*');
+}
+window.addEventListener('load', sendHeight);
+new ResizeObserver(sendHeight).observe(document.body);
+</script>
