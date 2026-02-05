@@ -5,5 +5,14 @@ function sendHeight() {
 window.addEventListener('DOMContentLoaded', function() {
   sendHeight();
   new ResizeObserver(sendHeight).observe(document.body);
+
+  document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' && e.target.hash) {
+      const target = document.querySelector(e.target.hash);
+      if (target) {
+        window.parent.postMessage({scrollTo: target.offsetTop}, '*');
+      }
+    }
+  });
 });
 </script>
