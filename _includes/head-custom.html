@@ -1,17 +1,37 @@
 <script>
+// Send the embedded page's height to the parent window
+// This allows the parent to resize the iframe dynamically
 function sendHeight() {
   window.parent.postMessage({height: document.body.scrollHeight}, '*');
 }
+
 window.addEventListener('DOMContentLoaded', function() {
+  // Send initial height when page loads
   sendHeight();
+  
+  // Monitor for content changes and update height automatically
+  // This handles dynamic content, images loading, etc.
   new ResizeObserver(sendHeight).observe(document.body);
 
+  // Handle internal anchor link clicks (e.g., #section-name)
   document.addEventListener('click', function(e) {
     if (e.target.tagName === 'A' && e.target.hash) {
       const target = document.querySelector(e.target.hash);
       if (target) {
+        // Tell parent window to scroll to the anchor position
+        // This ensures smooth scrolling works across the iframe boundary
         window.parent.postMessage({scrollTo: target.offsetTop}, '*');
       }
+    }
+  });
+
+  // Force all external links to open in a new tab
+  // This prevents navigation away from the embedded site within the iframe
+  document.querySelectorAll('a').forEach(a => {
+    // Check if link points to a different domain
+    if (a.hostname && a.hostname !== location.hostname) {
+      a.target = '_blank';  // Open in new tab
+      a.rel = 'noopener noreferrer';  // Security best practice
     }
   });
 });
