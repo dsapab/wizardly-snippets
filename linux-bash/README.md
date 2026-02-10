@@ -181,4 +181,4 @@ stress-ng --hdd 4 --timeout 60m /efs/
 
 ## Makefiles
 Adding some somple makefiles that can be used for building your projects.
- - [Basic Makefile for Docker and AWS](./makefiles/Makefile)
+ - [Basic Makefile for Docker and AWS](./makefiles/Makefile-docker)
