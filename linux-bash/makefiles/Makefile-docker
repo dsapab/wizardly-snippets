@@ -51,6 +51,10 @@ $(error "You must supply both Account ID and Region, i.e.: make infra ACCOUNTID=
 endif
 
 ## 
+# PHONY Targets - will always run
+.PHONY: clean
+
+## 
 # Targets
 
 ecr:
