@@ -14,6 +14,7 @@ This is a personal collection code snippets, commands and small samples that I c
 ## Index
 - [AWS](./aws)
   - [CLI](./aws/cli)
+  - [CloudFormation](./aws/cloudformation)
   - [ECS](./aws/ecs)
   - [Elastic Beanstalk](./aws/elasticbeanstalk)
 - [Basic Linux/Bash](./linux-bash)
