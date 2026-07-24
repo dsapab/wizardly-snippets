@@ -12,9 +12,10 @@ This is a personal collection code snippets, commands and small samples that I c
 
 
 ## Index
-- [AWS - CLI](./aws-cli)
-- [AWS - ECS](./aws-ecs)
-- [AWS - Elastic Beanstalk](./aws-elasticbeanstalk)
+- [AWS](./aws)
+  - [CLI](./aws/cli)
+  - [ECS](./aws/ecs)
+  - [Elastic Beanstalk](./aws/elasticbeanstalk)
 - [Basic Linux/Bash](./linux-bash)
 - [curl](./curl)
 - [Docker](./docker)
