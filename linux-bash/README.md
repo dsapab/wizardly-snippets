@@ -44,6 +44,22 @@ Show NICs:
 ```
 ip link show
 ```
+Show interface statistics (RX/TX counters, cumulative since boot):
+```
+ip -s link show          # stats for all interfaces
+ip -s link show eth0     # one interface
+ip -s -s link show eth0  # -s twice adds a per-error breakdown
+```
+The counters come in an RX (inbound) block and a TX (outbound) block. `bytes`/`packets` are just volume. The diagnostic ones are `errors` (malformed frames, points at cabling or a failing NIC), `dropped` (kernel discarded the frame, RX drops mean it could not keep up), `overrun` (NIC ring buffer overflowed before the kernel drained it, pairs with high `si` softirq load), and `carrier`/`collsns` on TX (link flapping or a duplex mismatch). On a healthy link everything except `bytes`/`packets`/`mcast` sits at or near zero, so anything climbing is the lead.
+
+The `-s -s` form splits errors into kinds (`crc`, `frame`, `fifo`, `missed`, ...), which routes the fix. CRC points at physical corruption (replace the cable), `fifo`/`missed` at the ring buffer overflowing (tune ring buffers or IRQ affinity).
+
+Related, for deeper NIC-level detail:
+```
+ethtool -S eth0          # driver-level counters (rx_crc_errors, rx_missed_errors, ...)
+ethtool eth0             # link speed, duplex, autoneg (duplex-mismatch check)
+cat /proc/net/dev        # raw counters ip reads, all interfaces in one table
+```
 
 ### nmcli / nmtui
 Interact with NetworkManager from the CLI:
