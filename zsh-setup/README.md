@@ -6,14 +6,38 @@ The good news is you lose almost nothing. Same prompt and aliases as before, and
 
 ## Index
 
+- [Install](#install)
 - [Why I moved off the framework](#why-i-moved-off-the-framework)
 - [What replaces the theme](#what-replaces-the-theme)
 - [The files](#the-files)
 - [Keeping private things out of git](#keeping-private-things-out-of-git)
-- [Install](#install)
 - [Rolling back](#rolling-back)
 
 ****
+
+## Install
+
+One line does it. It backs up whatever you already have into `~/.zsh/backups/`, grabs `.zshrc` and `.zsh/` from this repo without cloning the whole thing, and carefully leaves any `*.local.zsh` of yours untouched. Because it runs straight from the pipe, nothing ever gets written to disk.
+
+```
+curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh | sh
+```
+
+Then hop into the new shell.
+
+```
+exec zsh
+```
+
+And fair enough, piping someone's script into `sh` is exactly the kind of thing this repo is wary of. If you would rather look before you leap, please do. Save it somewhere, read through it, and run it once you are happy.
+
+```
+curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh -o /tmp/zsh-install.sh
+less /tmp/zsh-install.sh
+sh /tmp/zsh-install.sh && rm /tmp/zsh-install.sh
+```
+
+A couple of things to have ready: zsh 5.x, and a Nerd Font selected in your terminal so the Apple and git glyphs render instead of turning into little boxes. If you do not have the Homebrew `zsh-syntax-highlighting` or `zsh-autosuggestions` packages, just delete those two `source` lines from `.zshrc` and everything else runs happily without them.
 
 ## Why I moved off the framework
 
@@ -44,30 +68,6 @@ Five little files, and none of them are long.
 ## Keeping private things out of git
 
 The `.zshrc` loads every `~/.zsh/*.local.zsh` file it can find, and if there are none it just carries on. That is where anything private or machine-specific goes, safely away from the committed files. Want work-only paths and aliases? Drop in a `work.local.zsh`. Something meant for one laptop? `laptop.local.zsh`. The `.gitignore` in here already ignores `*.local.zsh`, so you would have to try pretty hard to commit one by accident.
-
-## Install
-
-One line does it. It backs up whatever you already have into `~/.zsh/backups/`, grabs `.zshrc` and `.zsh/` from this repo without cloning the whole thing, and carefully leaves any `*.local.zsh` of yours untouched. Because it runs straight from the pipe, nothing ever gets written to disk.
-
-```
-curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh | sh
-```
-
-Then hop into the new shell.
-
-```
-exec zsh
-```
-
-And fair enough, piping someone's script into `sh` is exactly the kind of thing this repo is wary of. If you would rather look before you leap, please do. Save it somewhere, read through it, and run it once you are happy.
-
-```
-curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh -o /tmp/zsh-install.sh
-less /tmp/zsh-install.sh
-sh /tmp/zsh-install.sh && rm /tmp/zsh-install.sh
-```
-
-A couple of things to have ready: zsh 5.x, and a Nerd Font selected in your terminal so the Apple and git glyphs render instead of turning into little boxes. If you do not have the Homebrew `zsh-syntax-highlighting` or `zsh-autosuggestions` packages, just delete those two `source` lines from `.zshrc` and everything else runs happily without them.
 
 ## Rolling back
 
