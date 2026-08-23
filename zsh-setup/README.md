@@ -50,7 +50,7 @@ The `.zshrc` loads every `~/.zsh/*.local.zsh` file it can find, and if there are
 One line does it. It backs up whatever you already have into `~/.zsh/backups/`, grabs `.zshrc` and `.zsh/` from this repo without cloning the whole thing, and carefully leaves any `*.local.zsh` of yours untouched. Because it runs straight from the pipe, nothing ever gets written to disk.
 
 ```
-curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/linux-zsh-setup/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh | sh
 ```
 
 Then hop into the new shell.
@@ -62,7 +62,7 @@ exec zsh
 And fair enough, piping someone's script into `sh` is exactly the kind of thing this repo is wary of. If you would rather look before you leap, please do. Save it somewhere, read through it, and run it once you are happy.
 
 ```
-curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/linux-zsh-setup/install.sh -o /tmp/zsh-install.sh
+curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh -o /tmp/zsh-install.sh
 less /tmp/zsh-install.sh
 sh /tmp/zsh-install.sh && rm /tmp/zsh-install.sh
 ```
