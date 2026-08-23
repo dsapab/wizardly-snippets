@@ -20,10 +20,11 @@ zstyle ':vcs_info:*'      enable git                       # only care about git
 zstyle ':vcs_info:git:*'  check-for-changes true           # detect dirty/staged state
 zstyle ':vcs_info:git:*'  unstagedstr   ' %F{red}✗%f'      # marker: unstaged changes
 zstyle ':vcs_info:git:*'  stagedstr     ' %F{green}●%f'    # marker: staged changes
-#  '' is the Nerd Font git-branch glyph. %b = branch, %c = staged, %u = unstaged.
-zstyle ':vcs_info:git:*'  formats       ' %F{magenta} %b%f%c%u'
+_git_icon=$''                                        # branch glyph (Font Awesome code-fork)
+#  ${_git_icon} precedes the branch. %b = branch, %c = staged, %u = unstaged.
+zstyle ':vcs_info:git:*'  formats       " %F{magenta}${_git_icon} %b%f%c%u"
 #  actionformats is used mid-operation (rebase/merge); %a = the action name.
-zstyle ':vcs_info:git:*'  actionformats ' %F{magenta} %b%f %F{yellow}(%a)%f%c%u'
+zstyle ':vcs_info:git:*'  actionformats " %F{magenta}${_git_icon} %b%f %F{yellow}(%a)%f%c%u"
 
 # ──────────────────────────── Python virtualenv ────────────────────────────
 export VIRTUAL_ENV_DISABLE_PROMPT=1          # stop venv from editing PROMPT itself
