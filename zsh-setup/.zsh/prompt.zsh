@@ -2,7 +2,7 @@
 #  ~/.zsh/prompt.zsh — native two-line prompt (replaces Powerlevel9k)
 # ----------------------------------------------------------------------------
 #  Reproduces the look I liked from Powerlevel9k using only built-in zsh:
-#    left line : macOS icon · user · path · (lock if unwritable) · git · venv
+#    left line : OS icon · user · path · (lock if unwritable) · git · venv
 #    input line: colored ➜ (green on success, red on failure)
 #    right side: exit status · last-command duration · clock · date
 #
@@ -48,17 +48,30 @@ add-zsh-hook precmd  _timer_stop             # runs just before each prompt is d
 add-zsh-hook precmd  vcs_info                # refresh git info before each prompt
 
 # ────────────────────────── Static prompt pieces ───────────────────────────
-_OS_ICON='%F{white}%f'                      #  Apple/macOS logo (Nerd Font glyph)
+# Nerd Font glyphs, set via \u escapes so the source stays readable. They are
+# interpolated into the prompts below (prompt_subst expands them each render).
+case "$OSTYPE" in
+  darwin*) _os_icon=$'' ;;              # macOS: Apple logo
+  linux*)  _os_icon=$'' ;;              # Linux: Tux
+  *)       _os_icon=$'' ;;              # fallback: laptop
+esac
+_home_icon=$''                          #  home, shown before the path
+_clock_icon=$''                         #  clock, shown before the time
+_cal_icon=$''                           #  calendar, shown before the date
+
 _writable() {                                # show a red lock when cwd isn't writable
   [[ -w $PWD ]] || print -Pn '%F{red} %f'  #  = lock glyph
 }
 
+# Status indicator: green tick on success, red cross + exit code on failure.
+_status='%(?:%F{green}✓%f:%F{red}✗ %?%f)'
+
 # ─────────────────────────── The prompt itself ─────────────────────────────
 # Line 1 = info; line 2 = the input line (mirrors P9k's PROMPT_ON_NEWLINE).
 #   %n = username   %~ = cwd (with ~)   %(?:A:B) = A if last cmd ok else B
-PROMPT='${_OS_ICON} %F{cyan}%n%f %F{blue}%~%f$(_writable)${vcs_info_msg_0_}$(_venv)
+PROMPT='%F{white}${_os_icon}%f %F{cyan}%n%f %F{blue}${_home_icon} %~%f$(_writable)${vcs_info_msg_0_}$(_venv)
 %(?:%F{green}➜%f:%F{red}➜%f) '
 
-# Right prompt: [✗exitcode] [duration] HH:MM  Day DD Mon
+# Right prompt: [status] [duration]  HH:MM   DD Mon
 #   %? = last exit status   %D{..} = strftime-formatted date/time
-RPROMPT='%(?..%F{red}✗ %?%f )${_elapsed}%F{244}%D{%H:%M}%f %F{240}%D{%a %d %b}%f'
+RPROMPT='${_status} ${_elapsed}%F{244}${_clock_icon} %D{%H:%M}%f %F{240}${_cal_icon} %D{%a %d %b}%f'

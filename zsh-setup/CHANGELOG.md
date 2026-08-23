@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2026.08.23.14.31
+
+- Add an OS-aware prompt icon (Apple on macOS, penguin on Linux) plus home, clock and calendar icons
+- Show a success/failure status indicator on the right (green tick, or red cross with the exit code)
+
 ## 2026.08.23.14.01
 
 - Prune old backups on install, keeping only the 10 most recent in `~/.zsh/backups`
