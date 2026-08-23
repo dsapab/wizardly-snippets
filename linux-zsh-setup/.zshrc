@@ -29,11 +29,18 @@ fi
 # iTerm2 shell integration (marks, command status, etc.), if installed.
 [ -e "$HOME/.iterm2_shell_integration.zsh" ] && source "$HOME/.iterm2_shell_integration.zsh"
 
-# ──────────────────── Command-line UX plugins (Homebrew) ────────────────────
-# NOTE: syntax-highlighting must be sourced LATE so it can wrap the ZLE widgets
-# defined earlier (e.g. our history-search bindings) before it hooks them.
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"  # colorize typed commands
-source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"          # fish-like inline suggestions
+# ──────────────────── Command-line UX plugins (optional) ────────────────────
+# Syntax highlighting + autosuggestions, if installed. Checks Homebrew (macOS)
+# and the usual Linux paths, and stays quiet if neither is present. Sourced LATE
+# so highlighting can wrap the ZLE widgets defined earlier.
+_zsh_plugin_dirs=("${HOMEBREW_PREFIX:-/opt/homebrew}/share" /usr/local/share /usr/share)
+for _d in $_zsh_plugin_dirs; do
+  [ -r "$_d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "$_d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && break
+done
+for _d in $_zsh_plugin_dirs; do
+  [ -r "$_d/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$_d/zsh-autosuggestions/zsh-autosuggestions.zsh" && break
+done
+unset _zsh_plugin_dirs _d
 
 # ─────────────────── Machine-local extensions (convention) ─────────────────
 # Auto-source any ~/.zsh/*.local.zsh files (loaded in alphabetical order).

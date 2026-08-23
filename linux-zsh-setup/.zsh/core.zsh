@@ -51,9 +51,14 @@ alias l='ls -lah'              # long listing, all files
 alias lsa='ls -lah'            # alias kept for muscle memory
 
 # ────────────────────────── Colors for ls / grep ───────────────────────────
-export LSCOLORS="Gxfxcxdxbxegedabagacad"  # BSD ls color scheme (matches old OMZ)
-alias ls='ls -G'                          # enable colorized output on macOS ls
-alias grep='grep --color=auto'            # highlight matches in grep output
+# GNU ls (Linux) uses --color and $LS_COLORS; BSD ls (macOS) uses -G and $LSCOLORS.
+if ls --color=auto >/dev/null 2>&1; then
+  alias ls='ls --color=auto'              # GNU / Linux
+else
+  export LSCOLORS="Gxfxcxdxbxegedabagacad"  # BSD / macOS color scheme
+  alias ls='ls -G'
+fi
+alias grep='grep --color=auto'            # highlight matches (GNU and BSD both accept it)
 
 # ──────────────────────────── Misc quality-of-life ─────────────────────────
 setopt correct                 # offer spelling correction for mistyped commands

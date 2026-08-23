@@ -47,4 +47,6 @@ alias ff='find . -type f -name'     # find a file by name, e.g. ff '*.log'
 alias reload='exec zsh'             # reload the shell after editing config
 alias py='python3'                  # shorthand for python3
 alias pyserver='python3 -m http.server'   # serve the current dir over HTTP
-alias ofd='open .'                  # open the current folder in Finder (macOS)
+# Open the current folder in the file manager (macOS `open`, Linux `xdg-open`).
+command -v open     >/dev/null 2>&1 && alias ofd='open .'
+command -v xdg-open >/dev/null 2>&1 && alias ofd='xdg-open .'
