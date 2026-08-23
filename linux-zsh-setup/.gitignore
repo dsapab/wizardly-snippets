@@ -1,0 +1,5 @@
+# Machine-local / private zsh config — never commit these.
+# ~/.zshrc auto-sources every ~/.zsh/*.local.zsh file; those hold per-machine
+# or confidential setup (work tooling, credentials paths, etc.).
+*.local.zsh
+.zsh/*.local.zsh
