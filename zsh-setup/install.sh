@@ -6,8 +6,10 @@
 #  backing up whatever you already have. Private ~/.zsh/*.local.zsh files are
 #  left untouched. POSIX sh, so it runs fine piped straight from curl.
 #
-#  Quick run:
-#    curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh | sh
+#  Quick run (default; also installs the bundled JetBrainsMono FA font):
+#    curl -fsSL https://raw.githubusercontent.com/dsapab/wizardly-snippets/main/zsh-setup/install.sh | ZSH_PROMPT_ICONS=nerd-font sh
+#  No font to install (symbols in any preinstalled font):
+#    curl -fsSL .../zsh-setup/install.sh | ZSH_PROMPT_ICONS=plain sh    # or ZSH_PROMPT_ICONS=emoji
 #
 #  Override the source with env vars if you forked it:
 #    ZSH_SNIPPETS_REPO=you/yourfork ZSH_SNIPPETS_BRANCH=main sh install.sh
@@ -18,6 +20,7 @@ REPO="${ZSH_SNIPPETS_REPO:-dsapab/wizardly-snippets}"
 BRANCH="${ZSH_SNIPPETS_BRANCH:-main}"
 SUBDIR="zsh-setup"
 TOP="$(basename "$REPO")-$BRANCH"     # GitHub tarball top folder, e.g. wizardly-snippets-main
+ICONS_ENV="${ZSH_PROMPT_ICONS:-}"     # optional icon choice for first install + font step
 
 ts="$(date +%Y%m%d-%H%M%S)"
 backup="$HOME/.zsh/backups/$ts"
@@ -46,5 +49,41 @@ curl -fsSL "https://codeload.github.com/$REPO/tar.gz/refs/heads/$BRANCH" \
       "$TOP/$SUBDIR/.zsh"
 
 echo "Installed ~/.zshrc and ~/.zsh/"
+
+# ── Create the persistent user config ONCE (never overwritten on later updates)
+if [ ! -f "$HOME/.zsh/config.zsh" ]; then
+  cp "$HOME/.zsh/config.example.zsh" "$HOME/.zsh/config.zsh"
+  # On first creation, honor an icon style passed in the install command.
+  if [ -n "$ICONS_ENV" ]; then
+    tmp="$(mktemp)"
+    sed "s/^ZSH_PROMPT_ICONS=.*/ZSH_PROMPT_ICONS=$ICONS_ENV/" "$HOME/.zsh/config.zsh" > "$tmp" && mv "$tmp" "$HOME/.zsh/config.zsh"
+  fi
+  echo "Created ~/.zsh/config.zsh (your settings; preserved on future updates)"
+else
+  echo "Kept your existing ~/.zsh/config.zsh"
+fi
+
+# ── Effective icon mode: env override, else the value in config.zsh, else default
+MODE="$ICONS_ENV"
+if [ -z "$MODE" ]; then MODE="$(sed -n 's/^ZSH_PROMPT_ICONS=//p' "$HOME/.zsh/config.zsh" | head -1)"; fi
+if [ -z "$MODE" ]; then MODE="nerd-font"; fi
+
+# ── Install the bundled font only in nerd-font mode
+if [ "$MODE" = nerd-font ]; then
+  case "$(uname -s)" in
+    Darwin) fdir="$HOME/Library/Fonts" ;;
+    *)      fdir="$HOME/.local/share/fonts" ;;
+  esac
+  mkdir -p "$fdir"
+  for w in Regular Bold; do
+    curl -fsSL "https://raw.githubusercontent.com/$REPO/$BRANCH/$SUBDIR/fonts/JetBrainsMonoFA-$w.ttf" \
+      -o "$fdir/JetBrainsMonoFA-$w.ttf"
+  done
+  command -v fc-cache >/dev/null 2>&1 && fc-cache -f "$fdir" >/dev/null 2>&1 || true
+  echo "Installed JetBrainsMono FA into $fdir — select it in your terminal."
+else
+  echo "Icon mode '$MODE': no font to install."
+fi
+
 echo "Start using it now:   exec zsh"
 echo "Undo this install:    cp \"$backup/.zshrc\" ~/.zshrc && cp \"$backup\"/*.zsh ~/.zsh/ && exec zsh"

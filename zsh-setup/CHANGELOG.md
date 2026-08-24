@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2026.08.24.01.58
+
+- Add a persistent `~/.zsh/config.zsh` (from `config.example.zsh`) that the installer creates only if missing, so settings survive updates
+- Add two settings: `ZSH_PROMPT_ICONS` (`nerd-font` default, `plain`, or `emoji`) and `ZSH_PROMPT_SHOW_HOST` (show `user@host`)
+- Installer downloads and installs the bundled font only in `nerd-font` mode, and seeds the icon choice on first install
+
 ## 2026.08.24.01.23
 
 - Add a self-built prompt font in `fonts/`: JetBrains Mono patched with only the seven Font Awesome icons the prompt uses (home, clock, calendar, laptop, git branch, apple, linux)
