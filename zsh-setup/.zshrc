@@ -21,7 +21,7 @@ export PATH="$HOME/bin:/usr/local/bin:$PATH"
 : ${ZSH_PROMPT_SHOW_HOST:=false}     # true | false
 
 # ------------------------- Native zsh config files -------------------------
-# Order matters: core (options/completion + ZLE widgets) → prompt → aliases.
+# Order matters: core (options/completion + ZLE widgets) -> prompt -> aliases.
 source "$HOME/.zsh/core.zsh"      # completion, history, dir aliases, ls colors, QoL
 source "$HOME/.zsh/prompt.zsh"    # two-line git-aware prompt
 source "$HOME/.zsh/aliases.zsh"   # personal + git/file/shell shortcuts
