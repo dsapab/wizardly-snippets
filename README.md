@@ -20,6 +20,7 @@ This is a personal collection code snippets, commands and small samples that I c
 - [Basic Linux/Bash](./linux-bash)
 - [curl](./curl)
 - [Docker](./docker)
+- [ZSH setup](./zsh-setup)
 - [Others](./others)
 
 
