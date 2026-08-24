@@ -66,10 +66,11 @@ _timer_start() { _timer=$EPOCHREALTIME }     # preexec: stamp start time
 _timer_stop()  {                             # precmd: compute & format duration
   _elapsed=""                                # reset each prompt (cleared if unused)
   [[ -z $_timer ]] && return                 # nothing ran (e.g. empty Enter) → skip
-  local e=$(( EPOCHREALTIME - _timer ))       # seconds elapsed (float)
+  local e=$(( EPOCHREALTIME - _timer ))       # elapsed seconds (float)
   unset _timer
   (( e < 2 )) && return                      # only show for commands >= 2s (tunable)
-  local h=$(( e/3600 )) m=$(( (e/60)%60 )) s=$(( e%60 ))  # split into h/m/s
+  local secs=${e%.*}                          # whole seconds only (drop the fraction)
+  local h=$(( secs/3600 )) m=$(( (secs/60)%60 )) s=$(( secs%60 ))  # split into h/m/s
   local out=""; (( h )) && out+="${h}h"; (( m )) && out+="${m}m"; out+="${s}s"
   _elapsed="%F{yellow}${out}%f "             # e.g. "3s " shown on the right
 }
