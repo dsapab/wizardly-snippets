@@ -15,7 +15,7 @@ zmodload zsh/datetime 2>/dev/null            # provides $EPOCHREALTIME (command 
 autoload -Uz add-zsh-hook vcs_info           # hook helper + git/vcs prompt engine
 setopt prompt_subst                          # allow $(...) and ${...} inside prompts
 
-# ───────────────────────── Icon set (from config) ──────────────────────────
+# ------------------------- Icon set (from config) --------------------------
 # ZSH_PROMPT_ICONS picks the glyph set (see ~/.zsh/config.zsh). Icons that sit
 # before text carry a trailing space so empty ones collapse with no gap.
 : ${ZSH_PROMPT_ICONS:=nerd-font}             # safety default if sourced standalone
@@ -45,7 +45,7 @@ esac
 # Username segment: with or without the hostname (user@host).
 [[ $ZSH_PROMPT_SHOW_HOST == true ]] && _user='%n@%m' || _user='%n'
 
-# ─────────────────────── Git / VCS integration (colors) ────────────────────
+# ----------------------- Git / VCS integration (colors) --------------------
 zstyle ':vcs_info:*'      enable git                       # only care about git
 zstyle ':vcs_info:git:*'  check-for-changes true           # detect dirty/staged state
 zstyle ':vcs_info:git:*'  unstagedstr   ' %F{red}✗%f'      # marker: unstaged changes
@@ -55,13 +55,13 @@ zstyle ':vcs_info:git:*'  formats       " %F{magenta}${_git_icon} %b%f%c%u"
 #  actionformats is used mid-operation (rebase/merge); %a = the action name.
 zstyle ':vcs_info:git:*'  actionformats " %F{magenta}${_git_icon} %b%f %F{yellow}(%a)%f%c%u"
 
-# ──────────────────────────── Python virtualenv ────────────────────────────
+# ---------------------------- Python virtualenv ----------------------------
 export VIRTUAL_ENV_DISABLE_PROMPT=1          # stop venv from editing PROMPT itself
 _venv() {                                    # we render it ourselves, our way
   [[ -n $VIRTUAL_ENV ]] && print -Pn " %F{cyan}(${VIRTUAL_ENV:t})%f"  # (envname)
 }
 
-# ───────────────── Last-command execution time (like P9k) ──────────────────
+# ----------------- Last-command execution time (like P9k) ------------------
 _timer_start() { _timer=$EPOCHREALTIME }     # preexec: stamp start time
 _timer_stop()  {                             # precmd: compute & format duration
   _elapsed=""                                # reset each prompt (cleared if unused)
@@ -78,7 +78,7 @@ add-zsh-hook preexec _timer_start            # runs just before a command execut
 add-zsh-hook precmd  _timer_stop             # runs just before each prompt is drawn
 add-zsh-hook precmd  vcs_info                # refresh git info before each prompt
 
-# ────────────────────────── Static prompt pieces ───────────────────────────
+# -------------------------- Static prompt pieces ---------------------------
 _writable() {                                # red lock after the path when cwd isn't writable
   [[ -w $PWD ]] || { [[ -n $_lock_icon ]] && print -Pn " %F{red}${_lock_icon}%f"; }
 }
@@ -86,7 +86,7 @@ _writable() {                                # red lock after the path when cwd 
 # Status indicator: green tick on success, red cross + exit code on failure.
 _status='%(?:%F{green}✓%f:%F{red}✗ %?%f)'
 
-# ─────────────────────────── The prompt itself ─────────────────────────────
+# --------------------------- The prompt itself -----------------------------
 # Line 1 = info; line 2 = the input line (mirrors P9k's PROMPT_ON_NEWLINE).
 #   %n = username   %m = short host   %~ = cwd   %(?:A:B) = A if last cmd ok else B
 PROMPT='%F{white}${_os_icon}%f%F{cyan}${_user}%f %F{blue}${_home_icon}%~%f$(_writable)${vcs_info_msg_0_}$(_venv)

@@ -2,8 +2,6 @@
 
 This is my zsh setup with no framework underneath it, just a few small files you can read top to bottom in a couple of minutes. It is plain zsh, so it runs the same on macOS and Linux, on whatever terminal you like. I was happily on Oh My Zsh with the Powerlevel9k theme some time back, so that is what I compare against here, but the idea works the same whatever you are leaving behind. Prezto, zinit, antidote, a prompt like Starship, take your pick. I just wanted to own the handful of files that run in my shell instead of leaning on a whole framework for it.
 
-The good news is you lose almost nothing. Same prompt and aliases as before, and git still colors the branch. It simply starts in about 0.23s instead of the 0.9 to 1.4s Oh My Zsh was costing me on the same machine.
-
 ## Index
 
 - [Install](#install)
