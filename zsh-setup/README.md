@@ -52,6 +52,16 @@ Your preferences live in `~/.zsh/config.zsh`. The installer creates that file on
 
 Edit a value and run `exec zsh`. To choose the style up front, set it on the install command, e.g. `ZSH_PROMPT_ICONS=plain`.
 
+### How the styles look
+
+`nerd-font`, the default, using the bundled font:
+
+![Prompt in nerd-font mode](./docs/nerd-mode.png)
+
+`emoji`, which needs no font at all:
+
+![Prompt in emoji mode](./docs/emoji-mode.png)
+
 ## Why I moved off the framework
 
 A couple of reasons, and neither is really Oh My Zsh's fault.

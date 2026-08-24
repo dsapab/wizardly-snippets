@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2026.08.24.21.52
+
+- README: add screenshots showing the nerd-font and emoji prompt styles
+
 ## 2026.08.24.19.25
 
 - Fix the last-command duration: truncate to whole seconds instead of printing raw floats (now `3s`, `1h2m5s`)
