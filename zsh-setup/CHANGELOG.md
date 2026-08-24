@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2026.08.24.01.23
+
+- Add a self-built prompt font in `fonts/`: JetBrains Mono patched with only the seven Font Awesome icons the prompt uses (home, clock, calendar, laptop, git branch, apple, linux)
+- Build it reproducibly from official pinned sources with FontForge via `build_font.py`, shipping both OFL licenses and a checksummed provenance record
+- Remove the prebuilt Meslo font (ambiguous license) in favour of this OFL-only build
+
 ## 2026.08.23.14.31
 
 - Add an OS-aware prompt icon (Apple on macOS, penguin on Linux) plus home, clock and calendar icons
