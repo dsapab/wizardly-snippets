@@ -13,6 +13,13 @@
 # Personal bin + Homebrew/local ahead of the system path.
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
+# ─────────────────────────── Prompt settings ───────────────────────────────
+# Load persistent per-machine settings (created by the installer, never
+# overwritten on update), then fall back to defaults for anything unset.
+[ -f "$HOME/.zsh/config.zsh" ] && source "$HOME/.zsh/config.zsh"
+: ${ZSH_PROMPT_ICONS:=nerd-font}     # plain | emoji | nerd-font
+: ${ZSH_PROMPT_SHOW_HOST:=false}     # true | false
+
 # ───────────────────────── Native zsh config files ─────────────────────────
 # Order matters: core (options/completion + ZLE widgets) → prompt → aliases.
 source "$HOME/.zsh/core.zsh"      # completion, history, dir aliases, ls colors, QoL

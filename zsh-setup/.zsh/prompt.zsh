@@ -6,8 +6,8 @@
 #    input line: colored ➜ (green on success, red on failure)
 #    right side: exit status · last-command duration · clock · date
 #
-#  Git info comes from zsh's built-in `vcs_info` (the same engine P9k wrapped).
-#  Icons () need a Nerd Font in the terminal — iTerm already uses one.
+#  Git info comes from zsh's built-in `vcs_info`. The icon style is chosen by
+#  $ZSH_PROMPT_ICONS (see ~/.zsh/config.zsh): plain, emoji, or nerd-font.
 #  Everything here (glyphs, colors, thresholds) is safe to tweak.
 # ============================================================================
 
@@ -15,13 +15,42 @@ zmodload zsh/datetime 2>/dev/null            # provides $EPOCHREALTIME (command 
 autoload -Uz add-zsh-hook vcs_info           # hook helper + git/vcs prompt engine
 setopt prompt_subst                          # allow $(...) and ${...} inside prompts
 
+# ───────────────────────── Icon set (from config) ──────────────────────────
+# ZSH_PROMPT_ICONS picks the glyph set (see ~/.zsh/config.zsh). Icons that sit
+# before text carry a trailing space so empty ones collapse with no gap.
+: ${ZSH_PROMPT_ICONS:=nerd-font}             # safety default if sourced standalone
+: ${ZSH_PROMPT_SHOW_HOST:=false}
+case "$ZSH_PROMPT_ICONS" in
+  plain)                                      # symbols in any preinstalled font
+    _os_icon='' ; _home_icon='⌂ ' ; _clock_icon='' ; _cal_icon='' ; _git_icon='⎇' ; _lock_icon=''
+    ;;
+  emoji)                                      # system emoji, no font to install
+    case "$OSTYPE" in
+      darwin*) _os_icon='🍎 ' ;;
+      linux*)  _os_icon='🐧 ' ;;
+      *)       _os_icon='💻 ' ;;
+    esac
+    _home_icon='🏠 ' ; _clock_icon='🕐 ' ; _cal_icon='📅 ' ; _git_icon='🌿' ; _lock_icon='🔒'
+    ;;
+  *)                                          # nerd-font (default): JetBrainsMono FA
+    case "$OSTYPE" in
+      darwin*) _os_icon=$' ' ;;         # apple
+      linux*)  _os_icon=$' ' ;;         # tux
+      *)       _os_icon=$' ' ;;         # laptop
+    esac
+    _home_icon=$' ' ; _clock_icon=$' ' ; _cal_icon=$' ' ; _git_icon=$'' ; _lock_icon=$''
+    ;;
+esac
+
+# Username segment: with or without the hostname (user@host).
+[[ $ZSH_PROMPT_SHOW_HOST == true ]] && _user='%n@%m' || _user='%n'
+
 # ─────────────────────── Git / VCS integration (colors) ────────────────────
 zstyle ':vcs_info:*'      enable git                       # only care about git
 zstyle ':vcs_info:git:*'  check-for-changes true           # detect dirty/staged state
 zstyle ':vcs_info:git:*'  unstagedstr   ' %F{red}✗%f'      # marker: unstaged changes
 zstyle ':vcs_info:git:*'  stagedstr     ' %F{green}●%f'    # marker: staged changes
-_git_icon=$''                                        # branch glyph (Font Awesome code-fork)
-#  ${_git_icon} precedes the branch. %b = branch, %c = staged, %u = unstaged.
+#  ${_git_icon} (from the icon set above) precedes the branch. %b/%c/%u = branch/staged/unstaged.
 zstyle ':vcs_info:git:*'  formats       " %F{magenta}${_git_icon} %b%f%c%u"
 #  actionformats is used mid-operation (rebase/merge); %a = the action name.
 zstyle ':vcs_info:git:*'  actionformats " %F{magenta}${_git_icon} %b%f %F{yellow}(%a)%f%c%u"
@@ -49,19 +78,8 @@ add-zsh-hook precmd  _timer_stop             # runs just before each prompt is d
 add-zsh-hook precmd  vcs_info                # refresh git info before each prompt
 
 # ────────────────────────── Static prompt pieces ───────────────────────────
-# Nerd Font glyphs, set via \u escapes so the source stays readable. They are
-# interpolated into the prompts below (prompt_subst expands them each render).
-case "$OSTYPE" in
-  darwin*) _os_icon=$'' ;;              # macOS: Apple logo
-  linux*)  _os_icon=$'' ;;              # Linux: Tux
-  *)       _os_icon=$'' ;;              # fallback: laptop
-esac
-_home_icon=$''                          #  home, shown before the path
-_clock_icon=$''                         #  clock, shown before the time
-_cal_icon=$''                           #  calendar, shown before the date
-
-_writable() {                                # show a red lock when cwd isn't writable
-  [[ -w $PWD ]] || print -Pn '%F{red} %f'  #  = lock glyph
+_writable() {                                # red lock after the path when cwd isn't writable
+  [[ -w $PWD ]] || { [[ -n $_lock_icon ]] && print -Pn " %F{red}${_lock_icon}%f"; }
 }
 
 # Status indicator: green tick on success, red cross + exit code on failure.
@@ -69,10 +87,9 @@ _status='%(?:%F{green}✓%f:%F{red}✗ %?%f)'
 
 # ─────────────────────────── The prompt itself ─────────────────────────────
 # Line 1 = info; line 2 = the input line (mirrors P9k's PROMPT_ON_NEWLINE).
-#   %n = username   %~ = cwd (with ~)   %(?:A:B) = A if last cmd ok else B
-PROMPT='%F{white}${_os_icon}%f %F{cyan}%n%f %F{blue}${_home_icon} %~%f$(_writable)${vcs_info_msg_0_}$(_venv)
+#   %n = username   %m = short host   %~ = cwd   %(?:A:B) = A if last cmd ok else B
+PROMPT='%F{white}${_os_icon}%f%F{cyan}${_user}%f %F{blue}${_home_icon}%~%f$(_writable)${vcs_info_msg_0_}$(_venv)
 %(?:%F{green}➜%f:%F{red}➜%f) '
 
-# Right prompt: [status] [duration]  HH:MM   DD Mon
-#   %? = last exit status   %D{..} = strftime-formatted date/time
-RPROMPT='${_status} ${_elapsed}%F{244}${_clock_icon} %D{%H:%M}%f %F{240}${_cal_icon} %D{%a %d %b}%f'
+# Right prompt: [status] [duration]  <clock>HH:MM   <cal>DD Mon
+RPROMPT='${_status} ${_elapsed}%F{244}${_clock_icon}%D{%H:%M}%f %F{240}${_cal_icon}%D{%a %d %b}%f'
