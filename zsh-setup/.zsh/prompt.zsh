@@ -88,7 +88,7 @@ _status='%(?:%F{green}✓%f:%F{red}✗ %?%f)'
 # ─────────────────────────── The prompt itself ─────────────────────────────
 # Line 1 = info; line 2 = the input line (mirrors P9k's PROMPT_ON_NEWLINE).
 #   %n = username   %m = short host   %~ = cwd   %(?:A:B) = A if last cmd ok else B
-PROMPT='%F{white}${_os_icon}%f%F{cyan}${_user}%f %F{blue}${_home_icon}%~%f$(_writable)${vcs_info_msg_0_}$(_venv)
+PROMPT='%F{244}${_os_icon}%f%F{cyan}${_user}%f %F{blue}${_home_icon}%~%f$(_writable)${vcs_info_msg_0_}$(_venv)
 %(?:%F{green}➜%f:%F{red}➜%f) '
 
 # Right prompt: [status] [duration]  <clock>HH:MM   <cal>DD Mon
