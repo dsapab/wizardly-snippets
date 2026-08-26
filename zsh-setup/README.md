@@ -1,8 +1,6 @@
 # Native Zsh setup (framework-free)
 
-This is my zsh setup with no framework underneath it, just a few small files you can read top to bottom in a couple of minutes. I was happily on Oh My Zsh with the Powerlevel9k theme some time back, so that is what I compare against here, but the idea works the same whatever you are leaving behind. Prezto, zinit, antidote, a prompt like Starship, take your pick. I just wanted to own the handful of files that run in my shell instead of leaning on a whole framework for it.
-
-The good news is you lose almost nothing. Same prompt and aliases as before, and git still colors the branch. It simply starts in about 0.23s instead of the 0.9 to 1.4s Oh My Zsh was costing me on the same machine.
+This is my zsh setup with no framework underneath it, just a few small files you can read top to bottom in a couple of minutes. It is plain zsh, so it runs the same on macOS and Linux, on whatever terminal you like. I was happily on Oh My Zsh with the Powerlevel9k theme some time back, so that is what I compare against here, but the idea works the same whatever you are leaving behind. Prezto, zinit, antidote, a prompt like Starship, take your pick. I just wanted to own the handful of files that run in my shell instead of leaning on a whole framework for it.
 
 ## Index
 
@@ -47,12 +45,22 @@ A couple of things to have ready: zsh 5.x, and (for the default `nerd-font` styl
 Your preferences live in `~/.zsh/config.zsh`. The installer creates that file only if it is missing, so anything you set there survives every future update. The rest of the config gets overwritten when you update; this one file does not. Two settings for now.
 
 - `ZSH_PROMPT_ICONS` chooses the icon style, one of `nerd-font` (default), `plain`, or `emoji`.
-  - `nerd-font` uses a small custom font I built (JetBrains Mono with a few icons merged in). In this mode the installer downloads and installs it for you. See [fonts/](./fonts).
+  - `nerd-font` uses a small custom font I built (JetBrains Mono with a few icons merged in). In this mode the installer downloads and installs the font file for you. Installing the file is only half of it. You then have to tell your terminal to use it, and where that setting lives depends on which terminal you run. On macOS I use and recommend [iTerm2](https://github.com/gnachman/iterm2), where it is under Settings, Profiles, Text, Font, then choose `JetBrainsMono FA`. Any terminal works, the option just sits in a different place. See [fonts/](./fonts).
   - `plain` uses only symbols present in any preinstalled macOS or Linux font, so there is nothing to install.
   - `emoji` uses your system emoji, also nothing to install (colorful, and a touch wider).
 - `ZSH_PROMPT_SHOW_HOST` set to `true` shows the hostname after your username (`user@host`). Default `false`.
 
 Edit a value and run `exec zsh`. To choose the style up front, set it on the install command, e.g. `ZSH_PROMPT_ICONS=plain`.
+
+### How the styles look
+
+`nerd-font`, the default, using the bundled font:
+
+![Prompt in nerd-font mode](./docs/nerd-mode.png)
+
+`emoji`, which needs no font at all:
+
+![Prompt in emoji mode](./docs/emoji-mode.png)
 
 ## Why I moved off the framework
 

@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2026.08.24.21.52
+
+- README: add screenshots showing the nerd-font and emoji prompt styles
+
+## 2026.08.24.19.25
+
+- Fix the last-command duration: truncate to whole seconds instead of printing raw floats (now `3s`, `1h2m5s`)
+- README: note it runs on any zsh (macOS or Linux), and explain configuring your terminal to load the bundled font (iTerm2 recommended on macOS)
+
 ## 2026.08.24.01.58
 
 - Add a persistent `~/.zsh/config.zsh` (from `config.example.zsh`) that the installer creates only if missing, so settings survive updates

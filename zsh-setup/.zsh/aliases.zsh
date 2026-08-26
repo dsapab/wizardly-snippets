@@ -11,7 +11,7 @@ alias suroot='sudo -E -s'
 # Launch IPython via python3 without needing a separate ipython shim.
 alias ipython="python3 -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
 
-# ───────────────────────── Git shortcuts (curated) ─────────────────────────
+# ------------------------- Git shortcuts (curated) -------------------------
 # The most-used git aliases, borrowed from Oh My Zsh's git plugin. All start
 # with `g`, so none shadow a real command. Plain git subcommands only.
 alias g='git'                       # `g` == `git`
@@ -36,14 +36,14 @@ alias gsta='git stash push'         # stash current changes
 alias gstp='git stash pop'          # re-apply the latest stash
 alias gstl='git stash list'         # list stashes
 
-# ──────────────────────── Files & navigation extras ────────────────────────
+# ------------------------ Files & navigation extras ------------------------
 alias lt='ls -lth'                  # long list, newest first
 alias ldot='ls -ld .*'              # list only dotfiles in the current dir
 alias dud='du -d 1 -h'              # disk usage of each immediate subdir
 alias duf='du -sh *'                # disk usage of each item in the current dir
 alias ff='find . -type f -name'     # find a file by name, e.g. ff '*.log'
 
-# ────────────────────────────── Shell & tools ──────────────────────────────
+# ------------------------------ Shell & tools ------------------------------
 alias reload='exec zsh'             # reload the shell after editing config
 alias py='python3'                  # shorthand for python3
 alias pyserver='python3 -m http.server'   # serve the current dir over HTTP
