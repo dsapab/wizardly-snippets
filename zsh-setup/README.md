@@ -1,6 +1,6 @@
-# Native Zsh setup (framework-free)
+# A framework-free zsh setup
 
-This is my zsh setup with no framework underneath it, just a few small files you can read top to bottom in a couple of minutes. It is plain zsh, so it runs the same on macOS and Linux, on whatever terminal you like. I was happily on Oh My Zsh with the Powerlevel9k theme some time back, so that is what I compare against here, but the idea works the same whatever you are leaving behind. Prezto, zinit, antidote, a prompt like Starship, take your pick. I just wanted to own the handful of files that run in my shell instead of leaning on a whole framework for it.
+This is my zsh setup with no framework underneath it, just a few small files you can read top to bottom in a couple of minutes. It is plain zsh, so it runs the same on macOS and Linux, on whatever terminal you like. I was happily on Oh My Zsh with the Powerlevel9k theme some time back, so that is what I compare against here, but the same idea holds whatever you are moving off of. I just wanted to own the handful of files that run in my shell rather than lean on a whole framework for it.
 
 ## Index
 
@@ -64,13 +64,13 @@ Edit a value and run `exec zsh`. To choose the style up front, set it on the ins
 
 ## Why I moved off the framework
 
-A couple of reasons, and neither is really Oh My Zsh's fault.
+None of this is really a knock on Oh My Zsh. It is a good project, Powerlevel10k too, and they do plenty out of the box. What put me off was the attack surface.
 
-First, trust. Oh My Zsh keeps itself up to date by running `git pull` on a schedule, which means code I never actually read shows up on my laptop and runs the next time I open a terminal. It also ships around 300 plugins and 150 themes, all of them runnable, and I was using maybe five. If any of that upstream ever went bad, it would run as me. Every plugin framework works roughly this way, so think of it less as a complaint and more as the reason I wanted something smaller.
+It updates itself with a scheduled `git pull`, so code I never read lands on my laptop and runs the next time I open a terminal. It also ships something like 300 plugins and 150 themes, all runnable, and I used maybe five. If any of that upstream went bad one day, it would run as me. Every plugin framework works this way, so I do not really hold it against Oh My Zsh. I just wanted something smaller that I could keep an eye on.
 
-Second, speed, which is honestly the one I noticed most. The old startup read every library file, phoned home for updates, and loaded seven plugins before it handed me a prompt. This one runs `compinit`, draws the prompt, and gets out of the way.
+Speed was the other one, and the one I felt every day. The old startup read every library file, checked for updates, and loaded seven plugins before it handed me a prompt. This one runs `compinit`, draws the prompt, and gets out of the way.
 
-To be fair, I did give a few things up. The plugin manager and one-command updates are gone, along with a themes gallery I will admit I never really browsed. Since I only tweak my shell a few times a year, I was glad to trade all that for knowing exactly what runs at startup.
+I did lose a few things. The plugin manager is gone, and so are one-command updates. The themes gallery too, though I never really browsed it. I only touch my shell a few times a year, so that was an easy trade for knowing exactly what runs when I open a terminal.
 
 ## What replaces the theme
 
