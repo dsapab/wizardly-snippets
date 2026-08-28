@@ -1,0 +1,129 @@
+// ============================================================================
+//  devcontainer.json — one warm, generic box that hosts every project
+// ----------------------------------------------------------------------------
+//  This lives at the ROOT of your workspace dir (default ~/Workspace), not
+//  inside any single project. You open ~/Workspace once, "Reopen in Container",
+//  and every sub-folder is a project you can open inside this same container.
+//
+//  Comments marked "default:" spell out a value VS Code would use anyway — they
+//  are written out so you can see (and change) them. Everything is meant to be
+//  iterated on; trim what you do not use.
+//
+//  Reference: https://containers.dev/implementors/json_reference/
+// ============================================================================
+{
+  "name": "devbox",
+
+  // -- Image --------------------------------------------------------------
+  // Built from the sibling Dockerfile. Swap "build" for "image" if you would
+  // rather pull a prebuilt image and skip the local build.
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  // -- Workspace mount ----------------------------------------------------
+  // These two mirror VS Code's DEFAULTS, written out on purpose. Opening
+  // ~/Workspace bind-mounts the WHOLE tree, so every project under it shows up
+  // inside the container. Change nothing here and it just works.
+  //   default: workspaceMount   -> bind-mounts the opened folder
+  //   default: workspaceFolder  -> /workspaces/<folder name>
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // -- Lifecycle / keeping the box warm -----------------------------------
+  // "none" keeps the container running after you close VS Code, so reopening a
+  // project (Open Recent / workon) reconnects instantly instead of rebuilding.
+  //   default: "stopContainer" (stops the box when the window closes)
+  "shutdownAction": "none",
+
+  // -- Raw docker run args ------------------------------------------------
+  // runArgs passes straight to `docker run`, so anything docker can do lives
+  // here. --name gives the box a stable handle for reconnecting / workon.
+  "runArgs": [
+    "--name", "devbox"
+
+    // ---- Resource limits (uncomment + tune) ----------------------------
+    // On macOS these cap the container WITHIN the Docker VM; the VM's own
+    // CPU/RAM ceiling (set in OrbStack/Docker Desktop/colima) is the hard cap.
+    // , "--cpus", "4"
+    // , "--memory", "8g"
+    // , "--memory-swap", "8g"
+    // , "--pids-limit", "512"
+
+    // ---- Security hardening (uncomment to tighten) ---------------------
+    // , "--security-opt", "no-new-privileges"
+    // , "--cap-drop", "ALL"
+    // Note: VS Code leans toward debug-friendly defaults and may add
+    // SYS_PTRACE / seccomp=unconfined so native debuggers work. If you want
+    // strict isolation, set these yourself and drop the extras. See the
+    // deep-dive (docs/deep-dive.md) for the full picture.
+
+    // ---- Networking (uncomment to restrict egress) ---------------------
+    // , "--network", "none"           // no network at all
+    // , "--dns", "1.1.1.1"
+  ],
+
+  // -- Run as a non-root user --------------------------------------------
+  // Both are set to the base image's user. remoteUser is who VS Code, the
+  // terminal, tasks and agents run as; containerUser is the container-wide
+  // user. "vscode" ships in the mcr base image used by the Dockerfile.
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+
+  // -- Features -----------------------------------------------------------
+  // Prebuilt, composable install units. Deliberately broad — pin versions and
+  // remove what you do not need. https://containers.dev/features
+  "features": {
+    // Base shell niceties, a non-root user, sudo, common CLI tools.
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "username": "vscode"
+    },
+    // Git (newer than the distro's) + Git LFS.
+    "ghcr.io/devcontainers/features/git:1": {},
+    // GitHub CLI (`gh`).
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    // Node.js — "lts" by default; pin to a number when you care.
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    // Python 3 + pip.
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    },
+    // AWS CLI v2.
+    "ghcr.io/devcontainers/features/aws-cli:1": {}
+
+    // ---- Isolation trade-off — enable only if you need it --------------
+    // "docker-outside-of-docker" shares the HOST Docker socket into the
+    // container. Handy for building/running images from inside the box, but it
+    // effectively hands the container control of your host Docker daemon. Leave
+    // it off for real isolation.
+    // , "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+
+  // -- VS Code customizations --------------------------------------------
+  "customizations": {
+    "vscode": {
+      // A small starter set. For extensions you want in EVERY container,
+      // prefer the global user setting `dev.containers.defaultExtensions`
+      // instead of listing them here — that applies everywhere, including
+      // when you attach to an already-running container.
+      "extensions": [
+        "ms-python.python",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+      // "settings": { "terminal.integrated.defaultProfile.linux": "zsh" }
+    }
+  }
+
+  // -- Ports (uncomment to forward app ports to the host) ----------------
+  // "forwardPorts": [3000, 8080],
+
+  // -- Lifecycle hooks (uncomment as needed) -----------------------------
+  // Runs once after the container is created — good place to install tools
+  // Features do not cover (e.g. a CLI agent).
+  // "postCreateCommand": "echo 'container ready'",
+}
